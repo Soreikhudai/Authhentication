@@ -10,7 +10,7 @@ const MainNavigation = () => {
   const isLoggedin = Data.isLoggedin;
   const logoutHandler = () => {
     Data.logout(null);
-    navigate("/");
+    navigate("/auth");
   };
   return (
     <header className={classes.header}>
