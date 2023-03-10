@@ -1,16 +1,25 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-// import UserProfile from "./components/Profile/UserProfile";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 import AuthPage from "./pages/AuthPage";
 import HomePage from "./pages/HomePage";
 import ProfilePage from "./pages/ProfilePage";
-//import Layout from ".components/Layout/Layout";
+import { useContext } from "react";
+import AuthContext from "./store/auth-context";
+
 const App = () => {
+  const authCtx = useContext(AuthContext);
+
   return (
     <BrowserRouter>
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="/auth" element={<AuthPage />} />
-        <Route path="/profile" element={<ProfilePage />} />
+        {!authCtx.isLoggedin && (
+          <Route path="/" element={<Navigate to="/auth" />} />
+        )}
+        {!authCtx.isLoggedin && <Route path="/auth" element={<AuthPage />} />}
+        {authCtx.isLoggedin && (
+          <Route path="/profile" element={<ProfilePage />} />
+        )}
+        {<Route path="*" element={<Navigate to="/" />} />}
       </Routes>
     </BrowserRouter>
   );
